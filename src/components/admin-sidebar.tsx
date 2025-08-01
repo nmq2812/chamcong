@@ -1,72 +1,83 @@
-import { Calendar, ContactRound, Home, Inbox, MapPinned, MessageCircleWarning, Search, Settings, ShieldUser, UserCheck } from "lucide-react"
+import {
+    ContactRound,
+    Home,
+    MapPinned,
+    MessageCircleWarning,
+    ShieldUser,
+    UserCheck,
+} from "lucide-react";
 
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 // Menu items.
 const items = [
-  {
-    title: "Dashboard",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Nhân viên",
-    url: "#",
-    icon: ContactRound ,
-  },
-  {
-    title: "Chi nhánh",
-    url: "#",
-    icon: MapPinned,
-  },
-  {
-    title: "Chức vụ",
-    url: "#",
-    icon: UserCheck ,
-  },
-  {
-    title: "Quyền",
-    url: "#",
-    icon: ShieldUser,
-  },
-  {
-    title: "Thông báo",
-    url: "#",
-    icon: MessageCircleWarning,
-  },
-]
+    {
+        title: "Dashboard",
+        url: "/admin",
+        icon: Home,
+    },
+    {
+        title: "Nhân viên",
+        url: "/admin/staff",
+        icon: ContactRound,
+    },
+    {
+        title: "Chi nhánh",
+        url: "/admin/branches",
+        icon: MapPinned,
+    },
+    {
+        title: "Chức vụ",
+        url: "/admin/role",
+        icon: UserCheck,
+    },
+    {
+        title: "Quyền",
+        url: "/admin/permissions",
+        icon: ShieldUser,
+    },
+    {
+        title: "Thông báo",
+        url: "/admin/notifications",
+        icon: MessageCircleWarning,
+    },
+];
 
 export function AdminSidebar() {
-  return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
-  )
+    return (
+        <Sidebar collapsible="icon">
+            {/* <SidebarHeader>
+                Application
+            </SidebarHeader> */}
+            <SidebarContent>
+                <SidebarGroup>
+                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            {items.map((item) => (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild>
+                                        <a href={item.url}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+        </Sidebar>
+    );
 }
