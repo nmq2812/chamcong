@@ -1,5 +1,9 @@
+import FaceCapture from "@/components/face-capture";
+
 export default function AdminPage() {
     return (
-        <div className="">Admin Page</div>
+        <div className="">
+            <FaceCapture />
+        </div>
     );
 }

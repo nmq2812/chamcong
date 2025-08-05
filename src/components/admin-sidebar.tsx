@@ -17,6 +17,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 // Menu items.
@@ -56,10 +57,10 @@ const items = [
 export function AdminSidebar() {
     return (
         <Sidebar collapsible="icon">
-            {/* <SidebarHeader>
-                Application
-            </SidebarHeader> */}
             <SidebarContent>
+                <SidebarHeader className="items-center">
+                    <SidebarTrigger />
+                </SidebarHeader>
                 <SidebarGroup>
                     <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>

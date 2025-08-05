@@ -20,8 +20,8 @@ export default function AdminLayout({
         <QueryClientProvider client={queryClient}>
             <SidebarProvider>
                 <AdminSidebar />
-                <main>
-                    <SidebarTrigger />
+                <main className="w-full h-full flex justify-center items-start">
+                    
                     {children}
                 </main>
             </SidebarProvider>

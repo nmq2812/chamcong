@@ -23,6 +23,13 @@ import { Input } from "./input";
 import { DataTablePagination } from "../data-table-pagination";
 import React from "react";
 import { DataTableViewOptions } from "../data-table-view-option";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -36,8 +43,11 @@ export function DataTable<TData, TValue>({
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
-
     const [rowSelection, setRowSelection] = React.useState({});
+
+    // State để lưu cột được chọn để tìm kiếm
+    const [selectedColumn, setSelectedColumn] = React.useState<string>("");
+    const [searchValue, setSearchValue] = React.useState<string>("");
     const table = useReactTable({
         data,
         columns,
@@ -57,23 +67,70 @@ export function DataTable<TData, TValue>({
 
     console.log("selected rows:", table.getSelectedRowModel().rows);
 
+    // Lấy danh sách các cột có thể tìm kiếm (loại bỏ cột actions, select, v.v.)
+    const searchableColumns = table
+        .getAllColumns()
+        .filter(
+            (column) =>
+                column.getCanFilter() &&
+                column.id !== "select" &&
+                column.id !== "actions" &&
+                column.id !== "branchId" &&
+                column.id !== "createdAt" &&
+                column.id !== "id",
+        );
+
+    // Đặt cột đầu tiên làm mặc định nếu chưa chọn
+    React.useEffect(() => {
+        if (!selectedColumn && searchableColumns.length > 0) {
+            setSelectedColumn(searchableColumns[0].id);
+        }
+    }, [selectedColumn, searchableColumns]);
+
+    // Xử lý thay đổi tìm kiếm
+    const handleSearchChange = (value: string) => {
+        setSearchValue(value);
+        if (selectedColumn) {
+            setColumnFilters([{ id: selectedColumn, value }]);
+        }
+    };
+
+    // Xử lý thay đổi cột tìm kiếm
+    const handleColumnChange = (columnId: string) => {
+        setSelectedColumn(columnId);
+        // Reset filter cũ và áp dụng filter mới
+        setColumnFilters([{ id: columnId, value: searchValue }]);
+    };
+
     return (
         <div>
-            <div className="flex items-center py-4">
+            <DataTableViewOptions table={table} />
+            <div className="flex items-center gap-2 py-4">
+                <Select
+                    value={selectedColumn}
+                    onValueChange={handleColumnChange}
+                >
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Chọn trường tìm kiếm" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {searchableColumns.map((column) => (
+                            <SelectItem key={column.id} value={column.id}>
+                                {typeof column.columnDef.header === "string"
+                                    ? column.columnDef.header
+                                    : column.id}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
                 <Input
-                    placeholder="Filter name..."
-                    value={
-                        (table.getColumn("name")?.getFilterValue() as string) ??
-                        ""
-                    }
-                    onChange={(e) =>
-                        setColumnFilters([
-                            { id: "name", value: e.target.value },
-                        ])
-                    }
+                    placeholder={`Tìm kiếm...`}
+                    value={searchValue}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    className="flex-1"
                 />
             </div>
-            <DataTableViewOptions table={table} />
+
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
