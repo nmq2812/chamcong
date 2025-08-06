@@ -14,10 +14,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@radix-ui/react-dialog";
-import { Label } from "@/components/ui/label";
 
 export const roleColumns: ColumnDef<Role>[] = [
     {
@@ -103,7 +99,7 @@ export const roleColumns: ColumnDef<Role>[] = [
                                         "Role ID copied to clipboard",
                                     );
                                 } catch (error) {
-                                    toast.error("Failed to copy Role ID");
+                                    toast.error("Failed to copy Role ID: " + error);
                                 }
                             }}
                         >

@@ -1,13 +1,13 @@
 "use client";
 import { DataTable } from "@/components/ui/data-table";
 import { branchColumns } from "./columns";
-import { getBranchData } from "../api/getBranchData";
+import { useGetBranchData } from "../api/useGetBranchData";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function BranchPage() {
-    const { data, isLoading, isError } = getBranchData();
+    const { data, isLoading, isError } = useGetBranchData();
 
     if (isLoading) {
         return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;

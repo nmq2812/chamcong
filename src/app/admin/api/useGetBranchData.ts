@@ -1,17 +1,17 @@
-import { roleData } from "@/mock/rolePermissionData";
+import { branchData } from "@/mock/branchData";
 import { useQuery } from "@tanstack/react-query";
 
-export const getRolesData = () => {
+export const useGetBranchData = () => {
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["rolesData"],
+        queryKey: ["branchData"],
         queryFn: async () => {
             // Simulate fetching data from an API
             return new Promise((resolve) => {
                 setTimeout(() => {
-                    resolve(roleData);
+                    resolve(branchData);
                 }, 500);
             });
         },
     });
     return { data, isLoading, isError, error };
-}
+};

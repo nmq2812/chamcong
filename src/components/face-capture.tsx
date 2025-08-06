@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const FaceCapture: React.FC = () => {
     const webcamRef = useRef<Webcam>(null);
@@ -20,8 +20,8 @@ const FaceCapture: React.FC = () => {
             );
 
             setResult(`✅ Welcome, ${response.data.user}`);
-        } catch (err: any) {
-            if (err.response) {
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err) && err.response) {
                 setResult(`❌ ${err.response.data.message}`);
             } else {
                 setResult("❌ Error connecting to server");

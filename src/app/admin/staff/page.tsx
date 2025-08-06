@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table";
 import { staffColumns } from "./columns";
-import { getStaffData } from "../api/getStaffData";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGetStaffData } from "../api/useGetStaffData";
 
 export default function StaffPage() {
-    const { data: staffData, isLoading, isError } = getStaffData();
+    const { data: staffData, isLoading, isError } = useGetStaffData();
 
     if (isLoading) {
         return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;

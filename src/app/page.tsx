@@ -1,17 +1,11 @@
-import Image from "next/image";
+import FaceCapture from "@/components/face-capture";
 import Link from "next/link";
 
 export default function Home() {
     return (
-        <div className="flex items-center justify-center min-h-screen">
-            <Link href="/admin">
-                <Image
-                    src="https://i.pinimg.com/736x/db/04/ef/db04ef10d7b9ca96ad242c840bbfc783.jpg"
-                    alt="Description"
-                    width={500}
-                    height={500}
-                />
-            </Link>
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <FaceCapture />
+            <Link href="/admin" className="mt-4 text-blue-500 hover:underline">To Admin page</Link>
         </div>
     );
 }

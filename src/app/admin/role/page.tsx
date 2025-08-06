@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { UserPlus } from "lucide-react";
 import { roleColumns } from "./column";
-import { getRolesData } from "../api/getRolePermission";
+import { useGetRolesData } from "../api/useGetRolePermission";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function RolePage() {
-const { data: roleData, isLoading, isError } = getRolesData();
+const { data: roleData, isLoading, isError } = useGetRolesData();
 
     if (isLoading) {
         return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;

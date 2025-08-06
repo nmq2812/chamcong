@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin-sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -20,8 +20,7 @@ export default function AdminLayout({
         <QueryClientProvider client={queryClient}>
             <SidebarProvider>
                 <AdminSidebar />
-                <main className="w-full h-full flex justify-center items-start">
-                    
+                <main className="w-full h-screen p-2 m-2">
                     {children}
                 </main>
             </SidebarProvider>
