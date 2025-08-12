@@ -7,6 +7,7 @@ import { UserPlus } from "lucide-react";
 import { DeviceColumns } from "./columns";
 import { deviceData } from "@/mock/deviceData";
 import { Skeleton } from "@/components/ui/skeleton";
+import { translate } from "@/lib/translate/translate";
 
 const DevicePage = () => {
     const { data, isLoading, isError } = useGetDeviceData();
@@ -17,7 +18,7 @@ const DevicePage = () => {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Quản lý thiết bị</h1>
+            <h1 className="text-2xl font-bold mb-6">{translate("Device Management")}</h1>
             {isLoading ? (
                 <Skeleton className="w-1/2 h-8 rounded-md text-gray-800"></Skeleton>
             ) : (
@@ -25,7 +26,7 @@ const DevicePage = () => {
                     <div className="flex justify-between mb-6">
                         <Button>
                             <UserPlus className="h-4 w-4 mr-2" />
-                            Thêm thiết bị
+                            {translate("Add Device")}
                         </Button>
                     </div>
                     <DataTable

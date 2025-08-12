@@ -7,6 +7,7 @@ import { UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { mockBranch } from "@/mock/branchData";
+import { translate } from "@/lib/translate/translate";
 
 export default function BranchPage() {
     const { data, isLoading, isError } = useGetBranchData();
@@ -17,7 +18,7 @@ export default function BranchPage() {
     
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Quản lý chi nhánh</h1>
+            <h1 className="text-2xl font-bold mb-6">{translate("Branch Management")}</h1>
 
             {isLoading ? (
                 <Skeleton className="w-1/2 h-8 rounded-md text-gray-800" />
@@ -26,7 +27,7 @@ export default function BranchPage() {
                     <div className="flex justify-between mb-6">
                         <Button>
                             <UserPlus className="h-4 w-4 mr-2" />
-                            Thêm chi nhánh
+                            {translate("Add Branch")}
                         </Button>
                     </div>
                     <DataTable

@@ -1,5 +1,5 @@
+"use client";
 import { apiInstance } from "@/lib/axios";
-import { roleData } from "@/mock/rolePermissionData";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetRolesData = () => {

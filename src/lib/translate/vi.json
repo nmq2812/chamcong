@@ -1,0 +1,32 @@
+{
+    "Staff": "Nhân viên",
+    "Device": "Thiết bị",
+    "Branch": "Chi nhánh",
+    "Role": "Chức vụ",
+    "Permission": "Quyền",
+    "Settings": "Cài đặt",
+    
+    "Staff Management": "Quản lý nhân viên",
+    "Role Management": "Quản lý vai trò",
+    "Permission Management": "Quản lý quyền",
+    "Device Management": "Quản lý thiết bị",
+    "Branch Management": "Quản lý chi nhánh",
+
+    "Add Permission": "Thêm quyền",
+    "Add Role": "Thêm vai trò",
+    "Add Staff": "Thêm nhân viên",
+    "Add Branch": "Thêm chi nhánh",
+    "Add Device": "Thêm thiết bị",
+
+    "Edit Staff": "Chỉnh sửa nhân viên",
+    "Edit Role": "Chỉnh sửa vai trò",
+    "Edit Permission": "Chỉnh sửa quyền",
+    "Edit Branch": "Chỉnh sửa chi nhánh",
+    "Edit Device": "Chỉnh sửa thiết bị",
+
+    "Delete Staff": "Xoá nhân viên",
+    "Delete Role": "Xoá vai trò",
+    "Delete Permission": "Xoá quyền",
+    "Delete Branch": "Xoá chi nhánh",
+    "Delete Device": "Xoá thiết bị"
+}

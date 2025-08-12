@@ -1,0 +1,32 @@
+{
+    "Staff": "Staff",
+    "Device": "Device",
+    "Branch": "Branch",
+    "Role": "Role",
+    "Permission": "Permission",
+    "Settings": "Settings",
+    
+    "Staff Management": "Staff Management",
+    "Role Management": "Role Management",
+    "Permission Management": "Permission Management",
+    "Device Management": "Device Management",
+    "Branch Management": "Branch Management",
+
+    "Add Permission": "Add Permission",
+    "Add Role": "Add Role",
+    "Add Staff": "Add Staff",
+    "Add Branch": "Add Branch",
+    "Add Device": "Add Device",
+
+    "Edit Staff": "Edit Staff",
+    "Edit Role": "Edit Role",
+    "Edit Permission": "Edit Permission",
+    "Edit Branch": "Edit Branch",
+    "Edit Device": "Edit Device",
+
+    "Delete Staff": "Delete Staff",
+    "Delete Role": "Delete Role",
+    "Delete Permission": "Delete Permission",
+    "Delete Branch": "Delete Branch",
+    "Delete Device": "Delete Device"
+}

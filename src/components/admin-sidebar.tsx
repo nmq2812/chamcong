@@ -5,21 +5,30 @@ import {
     ShieldUser,
     UserCheck,
     Camera,
-    Settings
+    Settings,
 } from "lucide-react";
 
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarTrigger,
 } from "@/components/ui/sidebar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import useLanguage from "@/hooks/use-language";
+import { translate } from "@/lib/translate/translate";
 
 // Menu items.
 const items = [
@@ -29,44 +38,46 @@ const items = [
         icon: Home,
     },
     {
-        title: "Nhân viên",
+        title: "Staff",
         url: "/admin/staff",
         icon: ContactRound,
     },
     {
-        title: "Thiết bị",
+        title: "Device",
         url: "/admin/device",
         icon: Camera,
     },
     {
-        title: "Chi nhánh",
+        title: "Branch",
         url: "/admin/branch",
         icon: MapPinned,
     },
     {
-        title: "Chức vụ",
+        title: "Role",
         url: "/admin/role",
         icon: UserCheck,
     },
     {
-        title: "Quyền",
+        title: "Permission",
         url: "/admin/permission",
         icon: ShieldUser,
     },
     {
-        title: "Cài đặt",
+        title: "Settings",
         url: "/admin/setting",
         icon: Settings,
     },
 ];
 
 export function AdminSidebar() {
+    const {language, changeLanguage} = useLanguage();
+
     return (
-        <Sidebar collapsible="icon">
+        <Sidebar collapsible="icon" className="checkin-sidebar">
+            <SidebarHeader className="items-center">
+                <SidebarTrigger />
+            </SidebarHeader>
             <SidebarContent>
-                <SidebarHeader className="items-center">
-                    <SidebarTrigger />
-                </SidebarHeader>
                 <SidebarGroup>
                     {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
                     <SidebarGroupContent>
@@ -75,8 +86,8 @@ export function AdminSidebar() {
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <a href={item.url}>
-                                            <item.icon/>
-                                            <span>{item.title}</span>
+                                            <item.icon />
+                                            <span>{translate(item.title)}</span>
                                         </a>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
@@ -85,6 +96,23 @@ export function AdminSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline">
+                            {language === "vi" ? "Tiếng Việt" : "English"}
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem onClick={() => changeLanguage("en")}>
+                            English
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => changeLanguage("vi")}>
+                            Tiếng Việt
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </SidebarFooter>
         </Sidebar>
     );
 }

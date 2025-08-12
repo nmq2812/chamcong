@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetStaffData } from "../api/useGetStaffData";
 import { toast } from "sonner";
 import { staffData } from "@/mock/staffData";
+import { translate } from "@/lib/translate/translate";
 
 export default function StaffPage() {
     const { data, isLoading, isError } = useGetStaffData();
@@ -17,7 +18,7 @@ export default function StaffPage() {
 
     return (
         <div className="container w-full mx-auto p-5">
-            <h1 className="text-2xl font-bold mb-6">Quản lý nhân viên</h1>
+            <h1 className="text-2xl font-bold mb-6">{translate("Staff Management")}</h1>
 
             {isLoading ? (
                 <Skeleton className="w-1/2 h-8 rounded-md text-gray-800" />
@@ -26,7 +27,7 @@ export default function StaffPage() {
                     <div className="flex justify-between mb-6">
                         <Button>
                             <UserPlus className="h-4 w-4 mr-2" />
-                            Thêm nhân viên
+                            {translate("Add Staff")}
                         </Button>
                     </div>
 
