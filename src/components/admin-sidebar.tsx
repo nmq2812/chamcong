@@ -68,7 +68,7 @@ export function AdminSidebar() {
                     <SidebarTrigger />
                 </SidebarHeader>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (

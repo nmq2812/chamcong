@@ -7,9 +7,8 @@ export const useGetStaffData = () => {
         queryKey: ["staffData"],
         queryFn: async () => {
             // Simulate an API call
-            apiInstance.get("/branches").then((response) => {
-                return response.data;
-            });
+            const response = await apiInstance.get("/branches")
+            return response.data;
         },
     });
     return { data, isLoading, isError };

@@ -5,12 +5,14 @@ import { UserPlus } from "lucide-react";
 import { roleColumns } from "./column";
 import { useGetRolesData } from "../api/useGetRolePermission";
 import { Skeleton } from "@/components/ui/skeleton";
+import { roleData } from "@/mock/rolePermissionData";
+import { toast } from "sonner";
 
 export default function RolePage() {
-    const { data: roleData, isLoading, isError } = useGetRolesData();
+    const { data, isLoading, isError } = useGetRolesData();
 
     if (isError) {
-        return <div>Error loading staff data.</div>;
+        toast("Lỗi khi tải dữ liệu chức vụ. Đang sử dụng dữ liệu mẫu...");
     }
 
     return (
@@ -30,7 +32,7 @@ export default function RolePage() {
 
                     <DataTable
                         columns={roleColumns}
-                        data={roleData as Role[]}
+                        data={data ? data : roleData as Role[]}
                     />
                 </>
             )}

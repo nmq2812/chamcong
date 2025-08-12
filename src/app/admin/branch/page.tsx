@@ -14,6 +14,7 @@ export default function BranchPage() {
     if (isError) {
         toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
     }
+    
     return (
         <div>
             <h1 className="text-2xl font-bold mb-6">Quản lý chi nhánh</h1>

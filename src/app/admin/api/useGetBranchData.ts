@@ -5,14 +5,8 @@ export const useGetBranchData = () => {
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["mockBranch"],
         queryFn: async () => {
-            apiInstance
-                .get("/branches")
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((error) => {
-                    throw error;
-                });
+            const response = await apiInstance.get("/branches");
+            return response.data;
         },
     });
     return { data, isLoading, isError, error };

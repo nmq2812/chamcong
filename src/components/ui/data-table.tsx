@@ -65,8 +65,6 @@ export function DataTable<TData, TValue>({
         },
     });
 
-    console.log("selected rows:", table.getSelectedRowModel().rows);
-
     // Lấy danh sách các cột có thể tìm kiếm (loại bỏ cột actions, select, v.v.)
     const searchableColumns = table
         .getAllColumns()
