@@ -3,7 +3,7 @@ import { apiInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetDeviceData = () => {
-    const { data, isLoading, isError } = useQuery({
+    const res = useQuery({
         queryKey: ["deviceData"],
         queryFn: async () => {
             const response = await apiInstance.get("/devices");
@@ -11,5 +11,5 @@ export const useGetDeviceData = () => {
         },
     });
 
-    return { data, isLoading, isError };
+    return res;
 };

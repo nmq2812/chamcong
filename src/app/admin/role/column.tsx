@@ -56,12 +56,12 @@ export const roleColumns: ColumnDef<Role>[] = [
         accessorKey: "permissions",
         header: "Permissions",
         cell: ({ row }) => {
-            const permissions = row.getValue("permissions") as string[];
+            const permissions = row.getValue("permissions") as Permission[];
             return (
                 <div className="flex flex-wrap gap-1">
                     {permissions.map((permission, index) => (
                         <Badge key={index} variant="outline">
-                            {permission}
+                            {permission.name}
                         </Badge>
                     ))}
                 </div>

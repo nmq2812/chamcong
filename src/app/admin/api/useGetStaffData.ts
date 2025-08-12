@@ -3,7 +3,7 @@ import { staffData } from "@/mock/staffData";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetStaffData = () => {
-    const { data, isLoading, isError } = useQuery({
+    const res = useQuery({
         queryKey: ["staffData"],
         queryFn: async () => {
             // Simulate an API call
@@ -11,5 +11,5 @@ export const useGetStaffData = () => {
             return response.data;
         },
     });
-    return { data, isLoading, isError };
+    return res;
 };
