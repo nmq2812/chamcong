@@ -19,6 +19,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarTrigger,
+    useSidebar,
 } from "@/components/ui/sidebar";
 import {
     DropdownMenu,
@@ -70,7 +71,9 @@ const items = [
 ];
 
 export function AdminSidebar() {
-    const {language, changeLanguage} = useLanguage();
+    const { language, changeLanguage } = useLanguage();
+    const {open} = useSidebar()
+    console.log(open)
 
     return (
         <Sidebar collapsible="icon" className="checkin-sidebar">
@@ -100,7 +103,8 @@ export function AdminSidebar() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline">
-                            {language === "vi" ? "Tiếng Việt" : "English"}
+                            {open ? (language === "vi" ? "Tiếng Việt" : "English") : (language === "vi" ? "Vi" : "En")}
+                            
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
