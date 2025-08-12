@@ -7,36 +7,39 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetStaffData } from "../api/useGetStaffData";
 import { toast } from "sonner";
 import { staffData } from "@/mock/staffData";
+import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function StaffPage() {
     const { data, isLoading, isError } = useGetStaffData();
 
-    if (isLoading) {
-        return <Skeleton className="w-4 h-4 rounded-md text-gray-800" />;
-    }
-
-    if (isError) {
-        toast("Lỗi khi tải dữ liệu nhân viên. Đang sử dụng dữ liệu mẫu...");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Error loading staff data. Using mock data...");
+        }
+    }, [isError]);
 
     return (
         <div className="container w-full mx-auto p-5">
-            <h1 className="text-2xl font-bold mb-6">Quản lý nhân viên</h1>
+            <h1 className="text-2xl font-bold mb-6">{translate("Staff Management")}</h1>
 
-            {/* Search and actions */}
-            <div className="flex justify-between mb-6">
-                <Button>
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Thêm nhân viên
-                </Button>
-            </div>
+            {isLoading ? (
+                <Skeleton className="w-1/2 h-8 rounded-md text-gray-800" />
+            ) : (
+                <>
+                    <div className="flex justify-between mb-6">
+                        <Button>
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            {translate("Add Staff")}
+                        </Button>
+                    </div>
 
-            {/* Staff table */}
-
-            <DataTable
-                columns={staffColumns}
-                data={data ? data : staffData as unknown as Staff[]}
-            ></DataTable>
+                    <DataTable
+                        columns={staffColumns}
+                        data={data ? data : (staffData as unknown as Staff[])}
+                    />
+                </>
+            )}
         </div>
     );
 }

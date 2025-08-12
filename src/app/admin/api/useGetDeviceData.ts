@@ -3,20 +3,13 @@ import { apiInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetDeviceData = () => {
-    const { data, isLoading, isError } = useQuery({
+    const res = useQuery({
         queryKey: ["deviceData"],
         queryFn: async () => {
-            // Simulate fetching data from an API
-            apiInstance
-                .get("/devices")
-                .then((response) => {
-                    return response.data;
-                })
-                .catch((error) => {
-                    throw error;
-                });
+            const response = await apiInstance.get("/devices");
+            return response.data;
         },
     });
 
-    return { data, isLoading, isError };
+    return res;
 };

@@ -7,27 +7,40 @@ import { UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { mockBranch } from "@/mock/branchData";
+import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function BranchPage() {
     const { data, isLoading, isError } = useGetBranchData();
 
-    if (isLoading) {
-        return <Skeleton className="w-32 h-16 rounded-md text-gray-800" />;
-    }
-    if (isError) {
-        // return <div>Error loading branch data.</div>;
-        toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
+        }
+    }, [isError]);
+
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Quản lý chi nhánh</h1>
-            <div className="flex justify-between mb-6">
-                <Button>
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Thêm chi nhánh
-                </Button>
-            </div>
-            <DataTable columns={branchColumns} data={data ? data : mockBranch as unknown as Branch[]} />
+            <h1 className="text-2xl font-bold mb-6">
+                {translate("Branch Management")}
+            </h1>
+
+            {isLoading ? (
+                <Skeleton className="w-1/2 h-8 rounded-md text-gray-800" />
+            ) : (
+                <>
+                    <div className="flex justify-between mb-6">
+                        <Button>
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            {translate("Add Branch")}
+                        </Button>
+                    </div>
+                    <DataTable
+                        columns={branchColumns}
+                        data={data ? data : (mockBranch as unknown as Branch[])}
+                    />
+                </>
+            )}
         </div>
     );
 }

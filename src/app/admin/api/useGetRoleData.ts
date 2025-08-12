@@ -1,15 +1,14 @@
+"use client";
 import { apiInstance } from "@/lib/axios";
-import { staffData } from "@/mock/staffData";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetStaffData = () => {
+export const useGetRolesData = () => {
     const res = useQuery({
-        queryKey: ["staffData"],
+        queryKey: ["rolesData"],
         queryFn: async () => {
-            // Simulate an API call
-            const response = await apiInstance.get("/branches")
+            const response = await apiInstance.get("/roles");
             return response.data;
         },
     });
     return res;
-};
+}

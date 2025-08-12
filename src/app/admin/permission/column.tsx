@@ -1,24 +1,26 @@
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@radix-ui/react-checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-export const branchColumns: ColumnDef<Branch>[] = [
+export const PermissionColumn: ColumnDef<Permission>[] = [
     {
         id: "select",
         header: ({ table }) => (
-            <Checkbox 
+            <Checkbox
                 checked={
-                    table.getIsAllPageRowsSelected() || 
+                    table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && "indeterminate")
                 }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
                 aria-label="Select all"
             />
         ),
         cell: ({ row }) => (
-            <Checkbox 
-                checked={row.getIsSelected()} 
-                onCheckedChange={(value) => row.toggleSelected(!!value)} 
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"
             />
         ),
@@ -34,19 +36,13 @@ export const branchColumns: ColumnDef<Branch>[] = [
     {
         accessorKey: "name",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Tên chi nhánh" />
+            <DataTableColumnHeader column={column} title="Tên quyền" />
         ),
     },
     {
-        accessorKey: "address",
+        accessorKey: "description",
         header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Địa chỉ" />
+            <DataTableColumnHeader column={column} title="Mô tả" />
         ),
     },
-    {
-        accessorKey: "activeStatus",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Trạng thái" />
-        ),
-    },
-];
+]

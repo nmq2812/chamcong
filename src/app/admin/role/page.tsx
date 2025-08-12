@@ -3,37 +3,43 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { UserPlus } from "lucide-react";
 import { roleColumns } from "./column";
-import { useGetRolesData } from "../api/useGetRolePermission";
+import { useGetRolesData } from "../api/useGetRoleData";
 import { Skeleton } from "@/components/ui/skeleton";
+import { roleData } from "@/mock/rolePermissionData";
+import { toast } from "sonner";
+import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function RolePage() {
-const { data: roleData, isLoading, isError } = useGetRolesData();
+    const { data, isLoading, isError } = useGetRolesData();
 
-    if (isLoading) {
-        return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;
-    }
-    if (isError) {
-        return <div>Error loading staff data.</div>;
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Error loading role data. Using mock data...");
+        }
+    }, [isError]);
 
     return (
         <div className="container w-full mx-auto p-5">
-            <h1 className="text-2xl font-bold mb-6">Quản lý Chức vụ</h1>
+            <h1 className="text-2xl font-bold mb-6">{translate("Role Management")}</h1>
 
-            {/* Search and actions */}
-            <div className="flex justify-between mb-6">
-                <Button>
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Thêm Chức vụ
-                </Button>
-            </div>
+            {isLoading ? (
+                <Skeleton className="w-1/2 h-8 rounded-md text-gray-400" />
+            ) : (
+                <>
+                    <div className="flex justify-between mb-6">
+                        <Button>
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            {translate("Add Role")}
+                        </Button>
+                    </div>
 
-            {/* Staff table */}
-
-            <DataTable
-                columns={roleColumns}
-                data={roleData as Role[]}
-            ></DataTable>
+                    <DataTable
+                        columns={roleColumns}
+                        data={data ? data : roleData as Role[]}
+                    />
+                </>
+            )}
         </div>
     );
 }
