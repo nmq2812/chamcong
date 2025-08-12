@@ -21,12 +21,9 @@ export default function AdminLayout({
         <QueryClientProvider client={queryClient}>
             <SidebarProvider>
                 <AdminSidebar />
-                <main className="w-full p-2 m-2">
-                    {children}
-                </main>
+                <main className="w-full p-2 m-2">{children}</main>
                 <Toaster />
             </SidebarProvider>
         </QueryClientProvider>
-        
     );
 }

@@ -9,29 +9,31 @@ import { deviceData } from "@/mock/deviceData";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DevicePage = () => {
-    const { data, isLoading: isDeviceLoading, isError: isDeviceError } = useGetDeviceData();
+    const { data, isLoading, isError } = useGetDeviceData();
 
-    if (isDeviceLoading) {
-        return <Skeleton className="w-4 h-4 rounded-md text-gray-800"></Skeleton>;
-    }
-
-    if (isDeviceError) {
+    if (isError) {
         toast("Error loading data. Using mock data...");
     }
 
     return (
         <div>
             <h1 className="text-2xl font-bold mb-6">Quản lý thiết bị</h1>
-            <div className="flex justify-between mb-6">
-                <Button>
-                    <UserPlus className="h-4 w-4 mr-2" />
-                    Thêm thiết bị
-                </Button>
-            </div>
-            <DataTable
-                columns={DeviceColumns}
-                data={data ? data : deviceData}
-            />
+            {isLoading ? (
+                <Skeleton className="w-1/2 h-8 rounded-md text-gray-800"></Skeleton>
+            ) : (
+                <>
+                    <div className="flex justify-between mb-6">
+                        <Button>
+                            <UserPlus className="h-4 w-4 mr-2" />
+                            Thêm thiết bị
+                        </Button>
+                    </div>
+                    <DataTable
+                        columns={DeviceColumns}
+                        data={data ? data : deviceData}
+                    />
+                </>
+            )}
         </div>
     );
 };
