@@ -5,16 +5,18 @@ import { DataTable } from "@/components/ui/data-table";
 import { staffColumns } from "./columns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetStaffData } from "../api/useGetStaffData";
+import { toast } from "sonner";
+import { staffData } from "@/mock/staffData";
 
 export default function StaffPage() {
-    const { data: staffData, isLoading, isError } = useGetStaffData();
+    const { data, isLoading, isError } = useGetStaffData();
 
     if (isLoading) {
-        return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;
+        return <Skeleton className="w-4 h-4 rounded-md text-gray-800" />;
     }
 
     if (isError) {
-        return <div>Error loading staff data.</div>;
+        toast("Lỗi khi tải dữ liệu nhân viên. Đang sử dụng dữ liệu mẫu...");
     }
 
     return (
@@ -33,7 +35,7 @@ export default function StaffPage() {
 
             <DataTable
                 columns={staffColumns}
-                data={staffData as Staff[]}
+                data={data ? data : staffData as unknown as Staff[]}
             ></DataTable>
         </div>
     );

@@ -2,9 +2,10 @@ import {
     ContactRound,
     Home,
     MapPinned,
-    MessageCircleWarning,
     ShieldUser,
     UserCheck,
+    Camera,
+    Settings
 } from "lucide-react";
 
 import {
@@ -33,8 +34,13 @@ const items = [
         icon: ContactRound,
     },
     {
+        title: "Thiết bị",
+        url: "/admin/device",
+        icon: Camera,
+    },
+    {
         title: "Chi nhánh",
-        url: "/admin/branches",
+        url: "/admin/branch",
         icon: MapPinned,
     },
     {
@@ -44,13 +50,13 @@ const items = [
     },
     {
         title: "Quyền",
-        url: "/admin/permissions",
+        url: "/admin/permission",
         icon: ShieldUser,
     },
     {
-        title: "Thông báo",
-        url: "/admin/notifications",
-        icon: MessageCircleWarning,
+        title: "Cài đặt",
+        url: "/admin/setting",
+        icon: Settings,
     },
 ];
 
@@ -69,7 +75,7 @@ export function AdminSidebar() {
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
                                         <a href={item.url}>
-                                            <item.icon />
+                                            <item.icon/>
                                             <span>{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>

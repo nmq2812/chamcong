@@ -1,12 +1,14 @@
+'use client';
 import { apiInstance } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetBranchData = () => {
-    const { data, isLoading, isError, error } = useQuery({
-        queryKey: ["mockBranch"],
+export const useGetDeviceData = () => {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["deviceData"],
         queryFn: async () => {
+            // Simulate fetching data from an API
             apiInstance
-                .get("/branches")
+                .get("/devices")
                 .then((response) => {
                     return response.data;
                 })
@@ -15,5 +17,6 @@ export const useGetBranchData = () => {
                 });
         },
     });
-    return { data, isLoading, isError, error };
+
+    return { data, isLoading, isError };
 };

@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                 column.id !== "actions" &&
                 column.id !== "branchId" &&
                 column.id !== "createdAt" &&
-                column.id !== "id",
+                column.id !== "activeStatus",
         );
 
     // Đặt cột đầu tiên làm mặc định nếu chưa chọn

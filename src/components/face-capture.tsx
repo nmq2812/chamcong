@@ -1,15 +1,16 @@
 "use client";
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const FaceCapture: React.FC = () => {
     const webcamRef = useRef<Webcam>(null);
     const [result, setResult] = useState<string>("");
 
-    const capture = async () => {
+    const capture = React.useCallback(async () => {
         const screenshot = webcamRef.current?.getScreenshot();
         if (!screenshot) return;
+        console.log("Captured screenshot:", screenshot);
 
         try {
             const response = await axios.post(
@@ -27,7 +28,7 @@ const FaceCapture: React.FC = () => {
                 setResult("❌ Error connecting to server");
             }
         }
-    };
+    }, [webcamRef]);
 
     return (
         <div className="text-center">

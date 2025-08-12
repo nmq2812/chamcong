@@ -5,18 +5,21 @@ import { useGetBranchData } from "../api/useGetBranchData";
 import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "sonner";
+import { mockBranch } from "@/mock/branchData";
 
 export default function BranchPage() {
     const { data, isLoading, isError } = useGetBranchData();
 
     if (isLoading) {
-        return <Skeleton className="w-4 h-4 rounded-md text-gray-400" />;
+        return <Skeleton className="w-32 h-16 rounded-md text-gray-800" />;
     }
     if (isError) {
-        return <div>Error loading branch data.</div>;
+        // return <div>Error loading branch data.</div>;
+        toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
     }
     return (
-        <div className="container w-full mx-auto p-5">
+        <div>
             <h1 className="text-2xl font-bold mb-6">Quản lý chi nhánh</h1>
             <div className="flex justify-between mb-6">
                 <Button>
@@ -24,7 +27,7 @@ export default function BranchPage() {
                     Thêm chi nhánh
                 </Button>
             </div>
-            <DataTable columns={branchColumns} data={data as Branch[]} />
+            <DataTable columns={branchColumns} data={data ? data : mockBranch as unknown as Branch[]} />
         </div>
     );
 }
