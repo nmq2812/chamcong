@@ -8,17 +8,22 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { mockBranch } from "@/mock/branchData";
 import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function BranchPage() {
     const { data, isLoading, isError } = useGetBranchData();
 
-    if (isError) {
-        toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
-    }
-    
+    React.useEffect(() => {
+        if (isError) {
+            toast("Lỗi khi tải dữ liệu chi nhánh. Đang sử dụng dữ liệu mẫu...");
+        }
+    }, [isError]);
+
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">{translate("Branch Management")}</h1>
+            <h1 className="text-2xl font-bold mb-6">
+                {translate("Branch Management")}
+            </h1>
 
             {isLoading ? (
                 <Skeleton className="w-1/2 h-8 rounded-md text-gray-800" />

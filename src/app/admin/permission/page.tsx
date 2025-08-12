@@ -8,13 +8,16 @@ import { permissionData } from "@/mock/rolePermissionData";
 import { UserPlus } from "lucide-react";
 import { PermissionColumn } from "./column";
 import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 function PermissionPage() {
     const { data, isLoading, isError } = useGetPermissionData();
 
-    if (isError) {
-        toast("Error loading permission data. Using mock data...");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Error loading permission data. Using mock data...");
+        }
+    }, [isError]);
 
     return (
         <div className="container w-full mx-auto p-5">

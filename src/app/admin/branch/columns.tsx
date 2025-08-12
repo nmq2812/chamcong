@@ -44,15 +44,9 @@ export const branchColumns: ColumnDef<Branch>[] = [
         ),
     },
     {
-        accessorKey: "isActive",
+        accessorKey: "activeStatus",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Trạng thái" />
-        ),
-    },
-    {
-        accessorKey: "createdAt",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Ngày tạo" />
         ),
     },
 ];

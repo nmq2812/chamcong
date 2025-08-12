@@ -31,7 +31,6 @@ import { Button } from "./ui/button";
 import useLanguage from "@/hooks/use-language";
 import { translate } from "@/lib/translate/translate";
 
-// Menu items.
 const items = [
     {
         title: "Dashboard",
@@ -72,12 +71,11 @@ const items = [
 
 export function AdminSidebar() {
     const { language, changeLanguage } = useLanguage();
-    const {open} = useSidebar()
-    console.log(open)
+    const { open } = useSidebar();
 
     return (
         <Sidebar collapsible="icon" className="checkin-sidebar">
-            <SidebarHeader className="items-center">
+            <SidebarHeader className="items-end">
                 <SidebarTrigger />
             </SidebarHeader>
             <SidebarContent>
@@ -103,8 +101,13 @@ export function AdminSidebar() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline">
-                            {open ? (language === "vi" ? "Tiếng Việt" : "English") : (language === "vi" ? "Vi" : "En")}
-                            
+                            {open
+                                ? language === "vi"
+                                    ? "Tiếng Việt"
+                                    : "English"
+                                : language === "vi"
+                                ? "Vi"
+                                : "En"}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>

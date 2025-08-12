@@ -8,13 +8,16 @@ import { useGetStaffData } from "../api/useGetStaffData";
 import { toast } from "sonner";
 import { staffData } from "@/mock/staffData";
 import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function StaffPage() {
     const { data, isLoading, isError } = useGetStaffData();
 
-    if (isError) {
-        toast("Lỗi khi tải dữ liệu nhân viên. Đang sử dụng dữ liệu mẫu...");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Error loading staff data. Using mock data...");
+        }
+    }, [isError]);
 
     return (
         <div className="container w-full mx-auto p-5">

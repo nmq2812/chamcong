@@ -8,13 +8,16 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { roleData } from "@/mock/rolePermissionData";
 import { toast } from "sonner";
 import { translate } from "@/lib/translate/translate";
+import React from "react";
 
 export default function RolePage() {
     const { data, isLoading, isError } = useGetRolesData();
 
-    if (isError) {
-        toast("Lỗi khi tải dữ liệu chức vụ. Đang sử dụng dữ liệu mẫu...");
-    }
+    React.useEffect(() => {
+        if (isError) {
+            toast("Error loading role data. Using mock data...");
+        }
+    }, [isError]);
 
     return (
         <div className="container w-full mx-auto p-5">
