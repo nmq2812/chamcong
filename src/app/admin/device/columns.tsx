@@ -1,6 +1,5 @@
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
-import { mockBranch } from "@/mock/branchData";
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const DeviceColumns: ColumnDef<Device>[] = [
@@ -41,18 +40,10 @@ export const DeviceColumns: ColumnDef<Device>[] = [
         ),
     },
     {
-        accessorKey: "branchId",
+        accessorKey: "branchName",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Chi nhánh" />
         ),
-        cell: ({ row }) => {
-            const branchId = row.getValue("branchId") as string | number;
-            // Assuming you have a function to get branch name by ID
-            const branchName =
-                mockBranch.find((branch) => branch.id === branchId)?.name ||
-                "Không xác định";
-            return <span>{branchName}</span>;
-        },
     },
     {
         accessorKey: "activeStatus",

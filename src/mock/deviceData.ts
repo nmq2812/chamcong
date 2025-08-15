@@ -1,4 +1,4 @@
-export const deviceData: Array<Device> = [
+export const mockDevice: Array<Device> = [
     {
         id: "1",
         name: "Camera Cổng Chính",

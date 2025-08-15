@@ -1,59 +1,80 @@
-"use client";
 import { Button } from "@/components/ui/button";
+import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogClose,
-    DialogDescription,
-    DialogFooter,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { translate } from "@/lib/translate/translate";
-import { UserPlus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    Form,
     FormField,
     FormItem,
     FormLabel,
     FormControl,
     FormMessage,
+    Form,
 } from "@/components/ui/form";
-import React from "react";
+import { Input } from "@/components/ui/input";
+import { translate } from "@/lib/translate/translate";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogTitle,
+    DialogDescription,
+    DialogClose,
+} from "@/components/ui/dialog";
 import {
     Select,
-    SelectContent,
-    SelectItem,
     SelectTrigger,
     SelectValue,
+    SelectContent,
+    SelectItem,
 } from "@/components/ui/select";
+import { UserPlus } from "lucide-react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
-const formSchema = z.object({
-    name: z.string().min(1, { message: translate("Name is required") }),
-    address: z.string().min(1, { message: translate("Address is required") }),
-    status: z.enum(["active", "inactive"], {
-        message: translate("Status is required"),
-    }),
-});
-
-function AddBranchDialog() {
+function AddDeviceForm({
+    branchData,
+    deviceData,
+    setDeviceData,
+}: {
+    branchData?: Branch[];
+    deviceData: DeviceDisplay[];
+    setDeviceData: (d: DeviceDisplay[]) => void;
+}) {
     const [open, setOpen] = React.useState(false);
+
+    const formSchema = z.object({
+        name: z.string().min(1, { message: translate("Name is required") }),
+        branch: z
+            .string()
+            .min(1, { message: translate("Branch is required") })
+            .refine((val) => branchData?.some((b) => b.id === val), {
+                message: translate("Invalid branch"),
+            }),
+        status: z.enum(["active", "inactive"], {
+            message: translate("Status is required"),
+        }),
+    });
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            address: "",
+            branch: "",
             status: "active",
         },
     });
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("Form submitted:", data);
+        const newDevice: DeviceDisplay = {
+            id: (deviceData.length + 1).toString(), // Generate a random ID
+            name: data.name,
+            branchId: data.branch,
+            activeStatus: data.status === "active" ? "ACTIVE" : "INACTIVE",
+            branchName:
+                branchData?.find((b) => b.id === data.branch)?.name ||
+                "Unknown Branch",
+        };
+        setDeviceData([...deviceData, newDevice]);
         setOpen(false);
         form.reset();
     };
@@ -61,16 +82,16 @@ function AddBranchDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>
+                <Button variant="default">
                     <UserPlus className="h-4 w-4 mr-2" />
-                    {translate("Add Branch")}
+                    {translate("Add Device")}
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Add Branch</DialogTitle>
+                    <DialogTitle>Add Device</DialogTitle>
                     <DialogDescription>
-                        {translate("Add a new branch to the system")}
+                        {translate("Add a new device to the system")}
                     </DialogDescription>
                 </DialogHeader>
 
@@ -81,12 +102,12 @@ function AddBranchDialog() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>
-                                    {translate("Branch Name")}
+                                    {translate("Device name")}
                                 </FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
-                                        placeholder="Enter branch name"
+                                        placeholder="Enter device name"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -95,15 +116,31 @@ function AddBranchDialog() {
                     />
                     <FormField
                         control={form.control}
-                        name="address"
+                        name="branch"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Address</FormLabel>
+                                <FormLabel>Branch</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        placeholder="Enter branch address"
-                                        {...field}
-                                    />
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                    >
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select branch" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {branchData?.map((branch) => {
+                                                return (
+                                                    <SelectItem
+                                                        key={branch.id}
+                                                        value={branch.id}
+                                                    >
+                                                        {branch.name}
+                                                    </SelectItem>
+                                                );
+                                            })}
+                                        </SelectContent>
+                                    </Select>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -116,7 +153,10 @@ function AddBranchDialog() {
                             <FormItem>
                                 <FormLabel>Status</FormLabel>
                                 <FormControl>
-                                    <Select defaultValue="active">
+                                    <Select
+                                        defaultValue="active"
+                                        onValueChange={field.onChange}
+                                    >
                                         <SelectTrigger className="w-full">
                                             <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
@@ -149,4 +189,4 @@ function AddBranchDialog() {
     );
 }
 
-export default AddBranchDialog;
+export default AddDeviceForm;
