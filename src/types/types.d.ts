@@ -47,6 +47,10 @@ interface Device {
     activeStatus: "ACTIVE" | "INACTIVE";
 }
 
+interface DeviceDisplay extends Device {
+    branchName: string;
+}
+
 interface CheckIn {
     id: string;
     userId: string;

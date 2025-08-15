@@ -1,5 +1,4 @@
 import { apiInstance } from "@/lib/axios";
-import { staffData } from "@/mock/staffData";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetStaffData = () => {

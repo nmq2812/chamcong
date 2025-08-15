@@ -2,13 +2,12 @@
 import { DataTable } from "@/components/ui/data-table";
 import { branchColumns } from "./columns";
 import { useGetBranchData } from "../api/useGetBranchData";
-import { Button } from "@/components/ui/button";
-import { UserPlus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { mockBranch } from "@/mock/branchData";
 import { translate } from "@/lib/translate/translate";
 import React from "react";
+import AddBranchForm from "./addForm";
 
 export default function BranchPage() {
     const { data, isLoading, isError } = useGetBranchData();
@@ -30,10 +29,7 @@ export default function BranchPage() {
             ) : (
                 <>
                     <div className="flex justify-between mb-6">
-                        <Button>
-                            <UserPlus className="h-4 w-4 mr-2" />
-                            {translate("Add Branch")}
-                        </Button>
+                        <AddBranchForm />
                     </div>
                     <DataTable
                         columns={branchColumns}
