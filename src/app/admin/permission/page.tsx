@@ -2,13 +2,12 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetPermissionData } from "../api/useGetPermissionData";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { permissionData } from "@/mock/rolePermissionData";
-import { UserPlus } from "lucide-react";
 import { PermissionColumn } from "./column";
 import { translate } from "@/lib/translate/translate";
 import React from "react";
+import AddPermissionForm from "./addForm";
 
 function PermissionPage() {
     const { data, isLoading, isError } = useGetPermissionData();
@@ -30,10 +29,7 @@ function PermissionPage() {
             ) : (
                 <>
                     <div className="flex justify-between mb-6">
-                        <Button>
-                            <UserPlus className="h-4 w-4 mr-2" />
-                            {translate("Add Permission")}
-                        </Button>
+                        <AddPermissionForm />
                     </div>
 
                     <DataTable
