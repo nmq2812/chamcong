@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { createUserCheckSchema } from "@/lib/validators";
+import { getErrorMessage } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -27,9 +28,9 @@ export async function POST(req: Request) {
             },
         });
         return NextResponse.json(created, { status: 201 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }
@@ -50,9 +51,9 @@ export async function PUT(req: Request) {
             },
         });
         return NextResponse.json(updated, { status: 200 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }

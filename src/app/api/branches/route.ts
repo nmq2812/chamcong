@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { AxiosError } from "axios";
+import { getErrorMessage } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -28,10 +30,9 @@ export async function POST(req: Request) {
             include: { devices: true },
         });
         return NextResponse.json(branch, { status: 201 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
-            { status: 400 },
+            { error: getErrorMessage(e) }, { status: 400 }
         );
     }
 }
@@ -48,10 +49,9 @@ export async function PUT(req: Request) {
             include: { devices: true },
         });
         return NextResponse.json(branch, { status: 200 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
-            { status: 400 },
+            { error: getErrorMessage(e) }, { status: 400 }
         );
     }
 }
@@ -63,10 +63,9 @@ export async function DELETE(req: Request) {
             where: { id },
         });
         return NextResponse.json(branch, { status: 200 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
-            { status: 400 },
+            { error: getErrorMessage(e) }, { status: 400 }
         );
     }
 }

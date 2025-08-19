@@ -2,6 +2,7 @@ import { map } from "./../../../../node_modules/effect/src/Cause";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { createRoleSchema } from "@/lib/validators";
+import { getErrorMessage } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -48,9 +49,9 @@ export async function POST(req: Request) {
             include: { rolePermissions: { include: { permission: true } } },
         });
         return NextResponse.json(role, { status: 201 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }
@@ -75,9 +76,9 @@ export async function PUT(req: Request) {
             include: { rolePermissions: { include: { permission: true } } },
         });
         return NextResponse.json(role, { status: 200 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }
@@ -88,9 +89,9 @@ export async function DELETE(req: Request) {
         const { id } = await req.json();
         const role = await prisma.role.delete({ where: { id } });
         return NextResponse.json(role, { status: 200 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }

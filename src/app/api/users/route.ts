@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { createUserSchema } from "@/lib/validators";
 import bcrypt from "bcrypt";
+import { getErrorMessage } from "@/lib/errors";
 
 export const runtime = "nodejs";
 
@@ -39,9 +40,9 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json(user, { status: 201 });
-    } catch (e: any) {
+    } catch (e: unknown) {
         return NextResponse.json(
-            { error: e?.message ?? "Bad Request" },
+            { error: getErrorMessage(e) },
             { status: 400 },
         );
     }
