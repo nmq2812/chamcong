@@ -1,19 +1,17 @@
 interface User {
     id: string;
     email: string;
-    phone?: string;
-    username: string;
+    name: string;
     address?: string;
     dateOfBirth?: Date;
-    gender?: "MALE" | "FEMALE";
-    active: "ACTIVE" | "INACTIVE";
+    gender?: "mail" | "female";
+    active: boolean;
     createdAt: Date;
-    modifiedDate: Date;
     roles?: string[];
 }
 
 interface Staff extends User {
-    branchId: string | number; // Department the staff belongs to
+    branchId: string | number;
 }
 
 interface Role {
@@ -21,30 +19,39 @@ interface Role {
     name: string;
     permissions?: Permission[];
     createdAt?: Date;
-    updatedAt?: Date;
     description?: string;
 }
 
 interface Permission {
-    id: string;
+    id: number;
     name: string;
     description?: string;
-    activeStatus: "ACTIVE" | "INACTIVE";
+    active: boolean;
+}
+
+interface RolePermission {
+    id: string;
+    roleId: string;
+    permissionId: string;
+    role?: Role;
+    permission?: Permission;
 }
 
 interface Branch {
-    id: string;
+    id: number;
     name: string;
     address: string;
-    activeStatus: "ACTIVE" | "INACTIVE";
+    active: boolean;
+    createdAt: Date;
 }
 
 interface Device {
     id: string;
     name: string;
-    branchId: string;
+    branchId: number;
     branch?: Branch;
-    activeStatus: "ACTIVE" | "INACTIVE";
+    active: boolean;
+    createdAt: Date;
 }
 
 interface DeviceDisplay extends Device {

@@ -1,14 +1,10 @@
-import { apiInstance } from "@/lib/axios";
+import { get } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetStaffData = () => {
     const res = useQuery({
         queryKey: ["staffData"],
-        queryFn: async () => {
-            // Simulate an API call
-            const response = await apiInstance.get("/branches")
-            return response.data;
-        },
+        queryFn: () => get<Staff[]>("/users"),
     });
     return res;
 };

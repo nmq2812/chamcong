@@ -45,4 +45,18 @@ export const PermissionColumn: ColumnDef<Permission>[] = [
             <DataTableColumnHeader column={column} title="Mô tả" />
         ),
     },
+    {
+        accessorKey: "createdAt",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Ngày tạo" />
+        ),
+        cell: ({ row }) => {
+            const date = new Date(row.getValue("createdAt"));
+            return date.toLocaleDateString("vi-VN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            });
+        },
+    }
 ]

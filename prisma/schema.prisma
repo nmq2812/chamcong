@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Permission {
+  id              Int              @id @default(autoincrement())
+  name            String           @db.VarChar(255)
+  description     String?          @db.VarChar(255)
+  createdAt       DateTime?        @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  active          Boolean?
+  rolePermissions RolePermission[]
+
+  @@map("permissions")
+}
+
+model Role {
+  id              Int              @id @default(autoincrement())
+  name            String           @db.VarChar(255)
+  description     String?          @db.VarChar(255)
+  createdAt       DateTime?        @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  active          Boolean?
+  rolePermissions RolePermission[]
+  userRoles       UserRole[]
+
+  @@map("roles")
+}
+
+model RolePermission {
+  id           Int        @id @default(autoincrement())
+  permissionId Int        @map("permission_id")
+  roleId       Int        @map("role_id")
+  createdAt    DateTime?  @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_rp_permission")
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_rp_role")
+
+  @@unique([permissionId, roleId], map: "uq_role_permission")
+  @@index([permissionId], map: "idx_role_permissions_permission_id")
+  @@index([roleId], map: "idx_role_permissions_role_id")
+  @@map("role_permissions")
+}
+
+model Branch {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  address   String?   @db.VarChar(255)
+  createdAt DateTime? @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  active    Boolean?
+  devices   Device[]
+
+  @@map("branches")
+}
+
+model Device {
+  id        Int         @id @default(autoincrement())
+  branchId  Int         @map("branch_id")
+  name      String      @db.VarChar(255)
+  active    Boolean?
+  createdAt DateTime?   @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  branch    Branch      @relation(fields: [branchId], references: [id], onUpdate: NoAction, map: "fk_devices_branch")
+  checks    UserCheck[]
+
+  @@index([branchId], map: "idx_devices_branch_id")
+  @@map("devices")
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  name        String      @db.VarChar(255)
+  gender      String?     @db.VarChar(255)
+  email       String?     @unique @db.VarChar(255)
+  password    String?     @db.VarChar(255)
+  dateOfBirth DateTime?   @map("date_of_birth") @db.Date
+  address     String?     @db.VarChar(255)
+  createdAt   DateTime?   @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  active      Boolean?
+  userChecks  UserCheck[]
+  userRoles   UserRole[]
+
+  @@map("users")
+}
+
+model UserRole {
+  id        Int       @id @default(autoincrement())
+  roleId    Int       @map("role_id")
+  userId    Int       @map("user_id")
+  createdAt DateTime? @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  role      Role      @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_ur_role")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_ur_user")
+
+  @@unique([roleId, userId], map: "uq_user_role")
+  @@index([roleId], map: "idx_user_roles_role_id")
+  @@index([userId], map: "idx_user_roles_user_id")
+  @@map("user_roles")
+}
+
+model UserCheck {
+  id                 Int       @id @default(autoincrement())
+  userId             Int       @map("user_id")
+  deviceId           Int       @map("device_id")
+  time               DateTime? @db.Date
+  image              String?   @db.VarChar(255)
+  actionType         String?   @map("action_type") @db.VarChar(255)
+  verificationStatus String?   @map("verification_status") @db.VarChar(255)
+  createdAt          DateTime? @default(dbgenerated("CURRENT_DATE")) @map("created_at") @db.Date
+  active             Boolean?
+  device             Device    @relation(fields: [deviceId], references: [id], onUpdate: NoAction, map: "fk_uc_device")
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_uc_user")
+
+  @@index([deviceId], map: "idx_user_checks_device_id")
+  @@index([userId], map: "idx_user_checks_user_id")
+  @@map("user_checks")
+}

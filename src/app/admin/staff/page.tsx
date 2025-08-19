@@ -19,6 +19,8 @@ export default function StaffPage() {
         }
     }, [isError]);
 
+    console.log("Staff data:", data);
+
     return (
         <div className="container w-full mx-auto p-5">
             <h1 className="text-2xl font-bold mb-6">{translate("Staff Management")}</h1>

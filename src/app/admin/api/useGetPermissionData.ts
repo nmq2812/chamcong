@@ -1,14 +1,11 @@
 'use client';
-import { apiInstance } from "@/lib/axios";
+import { get } from "@/lib/axios";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetPermissionData = () => {
     const res = useQuery({
         queryKey: ["permissionsData"],
-        queryFn: async () => {
-            const response = await apiInstance.get("/permissions");
-            return response.data;
-        },
+        queryFn: () => get<Permission[]>("/permissions"),
     });
 
     return res;

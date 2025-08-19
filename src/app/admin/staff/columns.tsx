@@ -1,4 +1,5 @@
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
+import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { mockBranch } from "@/mock/branchData";
 import { ColumnDef } from "@tanstack/react-table";
@@ -7,19 +8,21 @@ export const staffColumns: ColumnDef<Staff>[] = [
     {
         id: "select",
         header: ({ table }) => (
-            <Checkbox 
+            <Checkbox
                 checked={
-                    table.getIsAllPageRowsSelected() || 
+                    table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && "indeterminate")
                 }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
                 aria-label="Select all"
             />
         ),
         cell: ({ row }) => (
-            <Checkbox 
-                checked={row.getIsSelected()} 
-                onCheckedChange={(value) => row.toggleSelected(!!value)} 
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"
             />
         ),
@@ -36,7 +39,7 @@ export const staffColumns: ColumnDef<Staff>[] = [
         cell: ({ row }) => row.getValue("id"),
     },
     {
-        accessorKey: "username",
+        accessorKey: "name",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Tên nhân viên" />
         ),
@@ -49,9 +52,11 @@ export const staffColumns: ColumnDef<Staff>[] = [
         cell: ({ row }) => {
             const branchId = row.getValue("branchId") as string | number;
             // Assuming you have a function to get branch name by ID
-            const branchName = mockBranch.find(branch => branch.id === branchId)?.name || "Không xác định";
+            const branchName =
+                mockBranch.find((branch) => branch.id === branchId)?.name ||
+                "Không xác định";
             return <span>{branchName}</span>;
-        }
+        },
     },
     {
         accessorKey: "email",
@@ -60,18 +65,14 @@ export const staffColumns: ColumnDef<Staff>[] = [
         ),
         cell: ({ row }) => {
             const email = row.getValue("email") as string;
-            return <a href={`mailto:${email}`} className="text-blue-600 hover:underline">{email}</a>;
-        },
-    },
-    {
-        accessorKey: "phone",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Số điện thoại" />
-        ),
-        cell: ({ row }) => {
-            const phone = row.getValue("phone") as string;
-            // Format phone number if needed
-            return phone;
+            return (
+                <a
+                    href={`mailto:${email}`}
+                    className="text-blue-600 hover:underline"
+                >
+                    {email}
+                </a>
+            );
         },
     },
     {
@@ -90,16 +91,18 @@ export const staffColumns: ColumnDef<Staff>[] = [
             <DataTableColumnHeader column={column} title="Trạng thái" />
         ),
         cell: ({ row }) => {
-            const status = row.getValue("active") as string;
+            const status = row.getValue("active") as boolean;
             return (
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    status === "ACTIVE" ? "bg-green-100 text-green-800" :
-                    status === "INACTIVE" ? "bg-red-100 text-red-800" :
-                    "bg-gray-100 text-gray-800"
-                }`}>
-                    {status}
-                </span>
+                <Badge
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        status
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                    }`}
+                >
+                    {status ? "ACTIVE" : "INACTIVE"}
+                </Badge>
             );
         },
     },
-]
+];

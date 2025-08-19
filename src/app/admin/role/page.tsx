@@ -19,6 +19,8 @@ export default function RolePage() {
         }
     }, [isError]);
 
+    console.log("Role data:", data);
+
     return (
         <div className="container w-full mx-auto p-5">
             <h1 className="text-2xl font-bold mb-6">{translate("Role Management")}</h1>

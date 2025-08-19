@@ -44,12 +44,9 @@ function AddDeviceForm({
 
     const formSchema = z.object({
         name: z.string().min(1, { message: translate("Name is required") }),
-        branch: z
-            .string()
-            .min(1, { message: translate("Branch is required") })
-            .refine((val) => branchData?.some((b) => b.id === val), {
-                message: translate("Invalid branch"),
-            }),
+        branch: z.number().min(1, {
+            message: translate("Branch is required"),
+        }),
         status: z.enum(["active", "inactive"], {
             message: translate("Status is required"),
         }),
@@ -59,7 +56,7 @@ function AddDeviceForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            branch: "",
+            branch: branchData?.[0]?.id || undefined,
             status: "active",
         },
     });
@@ -69,10 +66,11 @@ function AddDeviceForm({
             id: (deviceData.length + 1).toString(), // Generate a random ID
             name: data.name,
             branchId: data.branch,
-            activeStatus: data.status === "active" ? "ACTIVE" : "INACTIVE",
+            active: data.status === "active" ? true : false,
             branchName:
                 branchData?.find((b) => b.id === data.branch)?.name ||
                 "Unknown Branch",
+            createdAt: new Date(),
         };
         setDeviceData([...deviceData, newDevice]);
         setOpen(false);
@@ -122,8 +120,8 @@ function AddDeviceForm({
                                 <FormLabel>Branch</FormLabel>
                                 <FormControl>
                                     <Select
-                                        onValueChange={field.onChange}
-                                        defaultValue={field.value}
+                                        onValueChange={(value) => field.onChange(Number(value))}
+                                        defaultValue={field.value?.toString()}
                                     >
                                         <SelectTrigger className="w-full">
                                             <SelectValue placeholder="Select branch" />
@@ -133,7 +131,7 @@ function AddDeviceForm({
                                                 return (
                                                     <SelectItem
                                                         key={branch.id}
-                                                        value={branch.id}
+                                                        value={branch.id.toString()}
                                                     >
                                                         {branch.name}
                                                     </SelectItem>
