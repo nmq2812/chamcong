@@ -1,6 +1,7 @@
 "use server";
-import axios from "axios";
+import axios, { AxiosRequestConfig, isAxiosError } from "axios";
 import { cookies } from "next/headers";
+import { ApiErrorShape } from "./errors";
 const API_BASE_URL = "http://localhost:3000/api";
 const WS_BASE_URL = "http://localhost:3000/ws";
 
@@ -36,8 +37,8 @@ const refreshToken = async () => {
     }
 };
 
-apiInstance.interceptors.response.use(undefined, async (error) => {
-    if (error.response?.status === 401) {
+apiInstance.interceptors.response.use(undefined, async (error: unknown) => {
+    if (isAxiosError(error) && error.response?.status === 401 && error.config) {
         await refreshToken();
         return apiInstance(error.config); // Gửi lại request ban đầu
     }
@@ -45,23 +46,41 @@ apiInstance.interceptors.response.use(undefined, async (error) => {
     throw error;
 });
 
-export async function get<T>(url: string, cfg?: any) {
+apiInstance.interceptors.response.use(
+    (res) => res,
+    (err: unknown) => {
+      if (isAxiosError<ApiErrorShape>(err)) {
+        const status = err.response?.status ?? 0;
+        const message = err.response?.data?.error ?? err.response?.data?.message ?? err.message;
+  
+        if (status === 401 && typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+  
+        return Promise.reject(Object.assign(new Error(message), { status, data: err.response?.data }));
+      }
+  
+      return Promise.reject(err); // unknown vẫn được trả ra
+    }
+  );
+
+export async function get<T>(url: string, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.get<T>(url, cfg);
     return data;
 }
-export async function post<T>(url: string, body?: any, cfg?: any) {
+export async function post<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.post<T>(url, body, cfg);
     return data;
 }
-export async function put<T>(url: string, body?: any, cfg?: any) {
+export async function put<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.put<T>(url, body, cfg);
     return data;
 }
-export async function del<T>(url: string, cfg?: any) {
+export async function del<T>(url: string, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.delete<T>(url, cfg);
     return data;
 }
-export async function patch<T>(url: string, body?: any, cfg?: any) {
+export async function patch<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.patch<T>(url, body, cfg);
     return data;
 }

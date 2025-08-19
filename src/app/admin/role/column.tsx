@@ -1,5 +1,5 @@
 "use client";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, Edit, Trash } from "lucide-react";
 import {
@@ -57,24 +57,7 @@ export const roleColumns: ColumnDef<Role>[] = [
     {
         accessorKey: "permissionIds",
         header: "Permissions",
-        cell: ({ row }) => {
-            const permissionIds = row.getValue("permissionIds") as number[];
-            const { data, isLoading, isError } = useGetPermissionData();
-
-            if (isLoading) {
-                return <Skeleton className="w-1/2 h-6 rounded-md" />;
-            }
-            return (
-                <div className="flex flex-wrap gap-1">
-                    {permissionIds.map((item, index) => (
-                        <Badge key={index} variant="outline">
-                            {data?.find((perm) => perm.id === item)?.name ||
-                                `Permission ${item}`}
-                        </Badge>
-                    ))}
-                </div>
-            );
-        },
+        cell: PermissionCell
     },
     {
         accessorKey: "createdAt",
@@ -128,3 +111,22 @@ export const roleColumns: ColumnDef<Role>[] = [
         },
     },
 ];
+
+function PermissionCell({ row }: { row: Row<Role> }) {
+    const permissionIds = row.getValue("permissionIds") as number[];
+    const { data, isLoading, isError } = useGetPermissionData();
+
+    if (isLoading) {
+        return <Skeleton className="w-1/2 h-6 rounded-md" />;
+    }
+    return (
+        <div className="flex flex-wrap gap-1">
+            {permissionIds.map((item, index) => (
+                <Badge key={index} variant="outline">
+                    {data?.find((perm) => perm.id === item)?.name ||
+                        `Permission ${item}`}
+                </Badge>
+            ))}
+        </div>
+    );
+}
