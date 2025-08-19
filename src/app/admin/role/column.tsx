@@ -14,6 +14,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { useGetPermissionData } from "../api/useGetPermissionData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const roleColumns: ColumnDef<Role>[] = [
     {
@@ -53,15 +55,21 @@ export const roleColumns: ColumnDef<Role>[] = [
         cell: ({ row }) => <div>{row.getValue("description")}</div>,
     },
     {
-        accessorKey: "permissions",
+        accessorKey: "permissionIds",
         header: "Permissions",
         cell: ({ row }) => {
-            const permissions = row.getValue("permissions") as Permission[];
+            const permissionIds = row.getValue("permissionIds") as number[];
+            const { data, isLoading, isError } = useGetPermissionData();
+
+            if (isLoading) {
+                return <Skeleton className="w-1/2 h-6 rounded-md" />;
+            }
             return (
                 <div className="flex flex-wrap gap-1">
-                    {permissions.map((permission, index) => (
+                    {permissionIds.map((item, index) => (
                         <Badge key={index} variant="outline">
-                            {permission.name}
+                            {data?.find((perm) => perm.id === item)?.name ||
+                                `Permission ${item}`}
                         </Badge>
                     ))}
                 </div>
@@ -99,7 +107,9 @@ export const roleColumns: ColumnDef<Role>[] = [
                                         "Role ID copied to clipboard",
                                     );
                                 } catch (error) {
-                                    toast.error("Failed to copy Role ID: " + error);
+                                    toast.error(
+                                        "Failed to copy Role ID: " + error,
+                                    );
                                 }
                             }}
                         >

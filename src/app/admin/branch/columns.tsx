@@ -1,4 +1,5 @@
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
+import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -6,19 +7,21 @@ export const branchColumns: ColumnDef<Branch>[] = [
     {
         id: "select",
         header: ({ table }) => (
-            <Checkbox 
+            <Checkbox
                 checked={
-                    table.getIsAllPageRowsSelected() || 
+                    table.getIsAllPageRowsSelected() ||
                     (table.getIsSomePageRowsSelected() && "indeterminate")
                 }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                onCheckedChange={(value) =>
+                    table.toggleAllPageRowsSelected(!!value)
+                }
                 aria-label="Select all"
             />
         ),
         cell: ({ row }) => (
-            <Checkbox 
-                checked={row.getIsSelected()} 
-                onCheckedChange={(value) => row.toggleSelected(!!value)} 
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
                 aria-label="Select row"
             />
         ),
@@ -43,10 +46,39 @@ export const branchColumns: ColumnDef<Branch>[] = [
             <DataTableColumnHeader column={column} title="Địa chỉ" />
         ),
     },
+
     {
-        accessorKey: "activeStatus",
+        accessorKey: "createdAt",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Ngày tạo" />
+        ),
+        cell: ({ row }) => {
+            const date = new Date(row.getValue("createdAt"));
+            return date.toLocaleDateString("vi-VN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+            });
+        },
+    },
+    {
+        accessorKey: "active",
         header: ({ column }) => (
             <DataTableColumnHeader column={column} title="Trạng thái" />
         ),
+        cell: ({ row }) => {
+            const status = row.getValue("active") as boolean;
+            return (
+                <Badge
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        status
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                    }`}
+                >
+                    {status ? "ACTIVE" : "INACTIVE"}
+                </Badge>
+            );
+        },
     },
 ];

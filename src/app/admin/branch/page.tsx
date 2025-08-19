@@ -33,7 +33,7 @@ export default function BranchPage() {
                     </div>
                     <DataTable
                         columns={branchColumns}
-                        data={data ? data : (mockBranch as unknown as Branch[])}
+                        data={!isError ? (data || []) : (mockBranch as unknown as Branch[])}
                     />
                 </>
             )}

@@ -53,7 +53,6 @@ function AddBranchDialog() {
     });
 
     const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("Form submitted:", data);
         setOpen(false);
         form.reset();
     };
