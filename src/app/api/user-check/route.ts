@@ -24,7 +24,7 @@ export async function POST(req: Request) {
                 image: data.image ?? null,
                 actionType: data.actionType ?? "checkin",
                 verificationStatus: data.verificationStatus ?? "success",
-                active: data.active ?? "active",
+                active: data.active === "active" ? true : false,
             },
         });
         return NextResponse.json(created, { status: 201 });

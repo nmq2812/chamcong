@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         const device = await prisma.device.create({
             data: {
                 name: body.name,
-                active: body.active ?? "active",
+                active: body.active === "active" ? true : false,
                 createdAt: body.createdAt ?? null,
                 branchId: Number(body.branchId),
             },
@@ -38,7 +38,7 @@ export async function PUT(req: Request) {
             where: { id: body.id },
             data: {
                 name: body.name,
-                active: body.active ?? "active",
+                active: body.active === "active" ? true : false,
                 createdAt: body.createdAt ?? null,
                 branchId: Number(body.branchId),
             },

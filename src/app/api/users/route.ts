@@ -31,7 +31,7 @@ export async function POST(req: Request) {
                     ? new Date(data.dateOfBirth)
                     : null,
                 address: data.address ?? null,
-                active: data.active ?? "active",
+                active: data.active === "active" ? true : false,
                 userRoles: {
                     create: data.roleIds.map((rid) => ({ roleId: rid })),
                 },

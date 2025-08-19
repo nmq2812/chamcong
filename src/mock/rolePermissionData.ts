@@ -1,35 +1,36 @@
 export const permissionData: Array<Permission> = [
     {
-        id: "view_users",
+        id: 1,
         name: "View Users",
         description: "Allows viewing user information",
-        activeStatus: "ACTIVE",
+        active: true,
     },
     {
-        id: "edit_users",
+        id: 2,
         name: "Edit Users",
         description: "Allows editing user information",
-        activeStatus: "ACTIVE",
+        active: true,
     },
     {
-        id: "delete_users",
+        id: 3,
         name: "Delete Users",
         description: "Allows deleting users",
-        activeStatus: "INACTIVE",
+        active: false,
     },
     {
-        id: "view_roles",
+        id: 4,
         name: "View Roles",
         description: "Allows viewing roles and permissions",
-        activeStatus: "ACTIVE",
+        active: true,
     },
     {
-        id: "edit_roles",
+        id: 5,
         name: "Edit Roles",
         description: "Allows editing roles and permissions",
-        activeStatus: "ACTIVE",
+        active: true,
     },
 ];
+
 export const roleData: Array<Role> = [
     {
         id: "1",
@@ -37,7 +38,6 @@ export const roleData: Array<Role> = [
         description: "Administrator with full access",
         permissions: [permissionData[0], permissionData[1], permissionData[2], permissionData[3], permissionData[4]],
         createdAt: new Date("2022-01-01"),
-        updatedAt: new Date("2022-01-01"),
     },
     {
         id: "2",
@@ -45,7 +45,6 @@ export const roleData: Array<Role> = [
         description: "Director with limited access",
         permissions: [permissionData[0], permissionData[1], permissionData[2], permissionData[3]],
         createdAt: new Date("2022-02-01"),
-        updatedAt: new Date("2022-02-01"),
     },
     {
         id: "3",
@@ -53,6 +52,5 @@ export const roleData: Array<Role> = [
         description: "Staff with limited access",
         permissions: [permissionData[0], permissionData[1]],
         createdAt: new Date("2022-03-01"),
-        updatedAt: new Date("2022-03-01"),
     },
 ];

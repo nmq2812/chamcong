@@ -1,4 +1,3 @@
-import { map } from "./../../../../node_modules/effect/src/Cause";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { createRoleSchema } from "@/lib/validators";
@@ -16,16 +15,16 @@ export async function GET() {
     });
 
     return NextResponse.json(
-        roles.map((role: RoleDTO) => ({
+        roles.map((role) => ({
             id: role.id,
             name: role.name,
             description: role.description,
             active: role.active,
             permissionIds: rolePermissions
-                .filter((pid: RolePermissionDTO) => {
+                .filter((pid) => {
                     return pid.roleId === role.id;
                 })
-                .map((pid: RolePermissionDTO) => pid.permissionId)
+                .map((pid) => pid.permissionId)
                 .filter(Boolean),
             createdAt: role.createdAt,
         })),
@@ -39,7 +38,7 @@ export async function POST(req: Request) {
             data: {
                 name: data.name,
                 description: data.description ?? null,
-                active: data.active ?? "active",
+                active: data.active === "active" ? true : false,
                 rolePermissions: {
                     create: data.permissionIds.map((pid) => ({
                         permissionId: pid,

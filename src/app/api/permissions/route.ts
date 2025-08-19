@@ -17,7 +17,7 @@ export async function POST(req: Request) {
             data: {
                 name: data.name,
                 description: data.description ?? null,
-                active: data.active ?? "active",
+                active: data.active === "active" ? true : false,
             },
         });
         return NextResponse.json(permission, { status: 201 });
@@ -37,7 +37,7 @@ export async function PUT(req: Request) {
             data: {
                 name: data.name,
                 description: data.description ?? null,
-                active: data.active ?? "active",
+                active: data.active === "active" ? true : false,
             },
         });
         return NextResponse.json(permission, { status: 200 });

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { AxiosError } from "axios";
 import { getErrorMessage } from "@/lib/errors";
+
+
 
 export const runtime = "nodejs";
 
@@ -10,11 +11,11 @@ export async function GET() {
         include: { devices: true },
         orderBy: { id: "asc" },
     });
-    return NextResponse.json(branches.map((branch: BranchDTO) => ({
+    return NextResponse.json(branches.map((branch) => ({
         id: branch.id,
         name: branch.name,
         address: branch.address ?? null,
-        active: branch.active,
+        active: branch.active ?? true,
         createdAt: branch.createdAt,
     })));
 }
