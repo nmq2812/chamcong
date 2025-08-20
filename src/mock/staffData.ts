@@ -70,6 +70,14 @@ export const staffData: Array<Staff> = [
         email: "phamvani@example.com",
         createdAt: new Date("2023-02-20"),
         active: false,
+    },
+    {
+        id: "10",
+        name: "New Staff",
+        branchId: "1",
+        email: "newstaff@example.com",
+        createdAt: new Date(),
+        active: true,
     }
     
 ];

@@ -3,10 +3,11 @@ import axios, { AxiosRequestConfig, isAxiosError } from "axios";
 import { cookies } from "next/headers";
 import { ApiErrorShape } from "./errors";
 const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL_PROD = "https://chamcong-azure.vercel.app/api";
 const WS_BASE_URL = "http://localhost:3000/ws";
 
 const resolveBaseURL = () => {
-    return process.env.NODE_ENV === "production" ? API_BASE_URL : API_BASE_URL;
+    return process.env.NODE_ENV === "production" ? API_BASE_URL_PROD : API_BASE_URL;
 };
 
 export const apiInstance = axios.create({
@@ -66,6 +67,7 @@ apiInstance.interceptors.response.use(
 
 export async function get<T>(url: string, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.get<T>(url, cfg);
+    console.log("GET request to:", url, "Response data:", data);
     return data;
 }
 export async function post<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
