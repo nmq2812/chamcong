@@ -1,5 +1,5 @@
 "use server";
-import axios, { AxiosRequestConfig, isAxiosError } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, isAxiosError } from "axios";
 import { cookies } from "next/headers";
 import { ApiErrorShape } from "./errors";
 const API_BASE_URL = "http://localhost:3000/api";
@@ -10,7 +10,7 @@ const resolveBaseURL = () => {
     return process.env.NODE_ENV === "production" ? API_BASE_URL_PROD : API_BASE_URL;
 };
 
-export const apiInstance = axios.create({
+export const apiInstance: AxiosInstance = axios.create({
     baseURL: resolveBaseURL(),
     withCredentials: true,
     timeout: 15000,

@@ -20,7 +20,7 @@ export default function StaffPage() {
         }
     }, [isError]);
 
-    console.log(apiInstance.defaults.baseURL);
+    console.log(apiInstance.defaults);
 
     return (
         <div className="container w-full mx-auto p-5">
