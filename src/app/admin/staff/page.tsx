@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { staffData } from "@/mock/staffData";
 import { translate } from "@/lib/translate/translate";
 import React from "react";
+import { apiInstance } from "@/lib/axios";
 
 export default function StaffPage() {
     const { data, isLoading, isError } = useGetStaffData();
@@ -19,7 +20,7 @@ export default function StaffPage() {
         }
     }, [isError]);
 
-    console.log("Staff data:", data);
+    console.log(apiInstance.defaults.baseURL);
 
     return (
         <div className="container w-full mx-auto p-5">
