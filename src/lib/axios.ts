@@ -67,12 +67,10 @@ apiInstance.interceptors.response.use(
 
 export async function get<T>(url: string, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.get<T>(url, cfg);
-    console.log("GET request to:", resolveBaseURL() + url, "Response data:", data);
     return data;
 }
 export async function post<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
     const { data } = await apiInstance.post<T>(url, body, cfg);
-    console.log("POST request to:", resolveBaseURL() + url);
     return data;
 }
 export async function put<T, D = unknown>(url: string, body?: D, cfg?: AxiosRequestConfig) {
